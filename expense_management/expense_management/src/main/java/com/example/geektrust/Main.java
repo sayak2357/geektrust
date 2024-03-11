@@ -47,6 +47,12 @@ public class Main {
                     String userWhoOwes = ops[1];
                     expenseManagementService.dues(userWhoOwes);
                 }
+                else if(op.equals("CLEAR_DUE")){
+                    String borrower = ops[1];
+                    String lender = ops[2];
+                    Double amount = Double.parseDouble(ops[3]);
+                    expenseManagementService.clearDue(borrower,lender,amount);
+                }
             }
             sc.close(); // closes the scanner
         }

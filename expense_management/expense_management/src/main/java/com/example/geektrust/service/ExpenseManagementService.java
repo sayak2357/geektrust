@@ -13,12 +13,12 @@ import java.util.List;
 public class ExpenseManagementService {
     private HouseService houseService;
     private Users users;
-
-    private SplitWise splitWise;
+    private SplitWiseService splitWiseService;
     public ExpenseManagementService(HouseService houseService, Users users){
         this.houseService = houseService;
         this.users = users;
-        this.splitWise = new SplitWise();
+
+        this.splitWiseService = new SplitWiseService();
     }
     public void moveIn(String userName, String houseId){
         User u = new User(userName);
@@ -41,7 +41,7 @@ public class ExpenseManagementService {
         }
         for(String uname:borrower){
             if(!uname.equals(giver)){
-                splitWise.aOwesB(giver,uname,amountPerHead);
+                splitWiseService.aOwesB(giver,uname,amountPerHead);
             }
         }
         System.out.println("SUCCESS");
@@ -59,18 +59,11 @@ public class ExpenseManagementService {
         boolean userCheck = validateUsers(user);
         if(!userCheck){
             System.out.println("MEMBER_NOT_FOUND");
-            return ;
+            return;
         }
-        List<String> owesTo = splitWise.getAllOwesTo(uname);
-        List<Pair> userAmounts = new ArrayList<>();
-        for(String lender:owesTo){
-            Double amount = splitWise.getDue(lender,uname);
-            userAmounts.add(new Pair(lender,amount));
-        }
-        Collections.sort(userAmounts,
-                (a,b) -> a.getAmount()== b.getAmount() ? a.getUname().compareTo(b.getUname()): b.getAmount().compareTo(a.getAmount()));
-        for(Pair p:userAmounts){
-            System.out.println(p.getUname()+" "+p.getAmount());
-        }
+        splitWiseService.dues(uname);
+    }
+    public void clearDue(String borrower, String lender, Double amount){
+        splitWiseService.clearDue(borrower, lender, amount);
     }
 }
