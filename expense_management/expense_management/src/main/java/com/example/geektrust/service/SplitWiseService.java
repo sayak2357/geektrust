@@ -14,6 +14,29 @@ public class SplitWiseService {
     }
     public void aOwesB(String giverName, String takerName, Double amount){
         splitWise.aOwesB(giverName,takerName,amount);
+
+        List<String> giverOwesTo = getAllOwesTo(giverName);
+        List<String> takerOwesTo = getAllOwesTo(takerName);
+        Double existingAmount = splitWise.getDue(giverName,takerName);
+        if(giverOwesTo!=null && takerOwesTo!=null && existingAmount>0){
+            String commonLender = findIntersection(giverOwesTo,takerOwesTo,giverName,takerName);
+            if(commonLender==null)
+                return;
+            Double giverOwesToCommonLender = getDue(commonLender,giverName);
+            Double takerOwesToCommonLender = getDue(commonLender,takerName);
+            if(takerOwesToCommonLender>existingAmount && giverOwesToCommonLender>existingAmount){
+                splitWise.aOwesB(takerName,giverName,existingAmount);
+                splitWise.aOwesB(commonLender,takerName,existingAmount);
+                splitWise.aOwesB(giverName,commonLender,existingAmount);
+            }
+        }
+    }
+    public String findIntersection(List<String> giverOwesTo,List<String> takerOwesTo, String giverName, String takerName){
+        for(String lender:giverOwesTo){
+            if(!lender.equals(giverName) && !lender.equals(takerName) && takerOwesTo.contains(lender))
+                return lender;
+        }
+        return null;
     }
     public List<String> getAllOwesTo(String uname) {
         return splitWise.getAllOwesTo(uname);
@@ -22,7 +45,7 @@ public class SplitWiseService {
         return splitWise.getDue(lender,borrower);
     }
     public void clearDue(String borrower, String lender, Double amount){
-        List<Pair> borrowerDues = dues(borrower);
+        List<Pair> borrowerDues = getDuesInfo(borrower);
         boolean flag = false;
         for(Pair p:borrowerDues){
             if(p.getUname().equals(lender)){
@@ -34,8 +57,9 @@ public class SplitWiseService {
                 else{
                     flag = true;
                     Double newDue = dueAmount-amount;
+                    Integer newD = newDue.intValue();
                     aOwesB(borrower,lender,amount);
-                    System.out.println(newDue);
+                    System.out.println(newD);
                     break;
                 }
             }
@@ -53,9 +77,20 @@ public class SplitWiseService {
         Collections.sort(userAmounts,
                 (a,b) -> a.getAmount()== b.getAmount() ? a.getUname().compareTo(b.getUname()): b.getAmount().compareTo(a.getAmount()));
         for(Pair p:userAmounts){
-            System.out.println(p.getUname()+" "+p.getAmount());
+            Integer amount = p.getAmount().intValue();
+            System.out.println(p.getUname()+" "+amount);
         }
         return userAmounts;
     }
+    public List<Pair> getDuesInfo(String uname) {
+        List<String> owesTo = getAllOwesTo(uname);
+        List<Pair> userAmounts = new ArrayList<>();
+        for(String lender:owesTo){
+            Double amount = getDue(lender,uname);
+            userAmounts.add(new Pair(lender,amount));
+        }
+        return userAmounts;
+    }
+
 
 }

@@ -4,6 +4,8 @@ import com.example.geektrust.dao.Houses;
 import com.example.geektrust.model.House;
 import com.example.geektrust.model.User;
 
+import java.util.List;
+
 public class HouseService {
     private Houses houses;
     public  HouseService(){
@@ -32,6 +34,14 @@ public class HouseService {
         }
         Integer userCount = house.getUserCount();
         return userCount;
+    }
+    public List<User> getAllUsers(String houseId){
+        House house = this.houses.getHouseById(houseId);
+        if(house==null){
+            System.out.println("invalid house id provided");
+            return null;
+        }
+        return house.getUsers();
     }
     public void addHouse(House house){
         houses.addHouse(house);

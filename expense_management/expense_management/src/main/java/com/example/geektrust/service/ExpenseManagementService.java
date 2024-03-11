@@ -66,4 +66,28 @@ public class ExpenseManagementService {
     public void clearDue(String borrower, String lender, Double amount){
         splitWiseService.clearDue(borrower, lender, amount);
     }
+    public void moveOut(String leavingUser, String houseId){
+        if(users.findByName(leavingUser)==null){
+            System.out.println("MEMBER_NOT_FOUND");
+            return;
+        }
+        List<User> users = houseService.getAllUsers(houseId);
+        boolean flag = true;
+        for(User u:users){
+            if(u.getName()!=leavingUser){
+                Double due = splitWiseService.getDue(u.getName(),leavingUser);
+                Double reverseDue = splitWiseService.getDue(leavingUser,u.getName());
+                if(due>0 || reverseDue>0){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if(!flag){
+            System.out.println("FAILURE");
+            return;
+        }
+        System.out.println("SUCCESS");
+        return;
+    }
 }

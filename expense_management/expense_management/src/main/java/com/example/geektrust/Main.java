@@ -53,6 +53,10 @@ public class Main {
                     Double amount = Double.parseDouble(ops[3]);
                     expenseManagementService.clearDue(borrower,lender,amount);
                 }
+                else if(op.equals("MOVE_OUT")){
+                    String user = ops[1];
+                    expenseManagementService.moveOut(user,"h1");
+                }
             }
             sc.close(); // closes the scanner
         }
@@ -60,6 +64,6 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        System.out.println("hello java");
+        //System.out.println("hello java");
     }
 }

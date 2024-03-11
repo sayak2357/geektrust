@@ -47,15 +47,16 @@ public class SplitWise {
         }
         if(existingAmount==0){
             if(owesToList.contains(giverName)) {
-                owesToList.remove(giverName);
+               // owesToList.remove(giverName);
             }
         }
         List<String> reverseOwesToList = owes.get(giverName);
         if(reverseAmount==0){
             if(reverseOwesToList.contains(takerName)) {
-                reverseOwesToList.remove(takerName);
+                //reverseOwesToList.remove(takerName);
             }
         }
+
         return;
     }
     public List<String> getAllOwesTo(String uname){
