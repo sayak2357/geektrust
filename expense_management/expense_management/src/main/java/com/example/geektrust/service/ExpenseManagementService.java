@@ -88,8 +88,10 @@ public class ExpenseManagementService {
             System.out.println("FAILURE");
             return;
         }
-        System.out.println("SUCCESS");
         houseService.moveOut(houseId,leavingUser);
+        this.users.removeByName(leavingUser);
+        System.out.println("SUCCESS");
+
         return;
     }
     public void run(Scanner sc){

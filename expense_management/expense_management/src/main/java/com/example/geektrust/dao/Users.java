@@ -16,6 +16,9 @@ public class Users {
         getByName.put(u.getName(),u);
         return true;
     }
+    public void removeByName(String uname){
+        getByName.remove(uname);
+    }
     public User findByName(String name){
         return getByName.containsKey(name) ? getByName.get(name) : null;
     }

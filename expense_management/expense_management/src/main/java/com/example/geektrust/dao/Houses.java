@@ -29,6 +29,7 @@ public class Houses {
         for(User u:users){
             if(u.getName().equals(uname)){
                 users.remove(uname);
+                house.setUsers(users);
                 flag = true;
                 break;
             }
