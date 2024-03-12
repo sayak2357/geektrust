@@ -57,9 +57,9 @@ public class SplitWiseService {
                 else{
                     flag = true;
                     Double newDue = dueAmount-amount;
-                    Integer newD = newDue.intValue();
+                    //Integer newD = newDue.intValue();
                     aOwesB(borrower,lender,amount);
-                    System.out.println(newD);
+                    System.out.println(newDue);
                     break;
                 }
             }
@@ -77,8 +77,8 @@ public class SplitWiseService {
         Collections.sort(userAmounts,
                 (a,b) -> a.getAmount()== b.getAmount() ? a.getUname().compareTo(b.getUname()): b.getAmount().compareTo(a.getAmount()));
         for(Pair p:userAmounts){
-            Integer amount = p.getAmount().intValue();
-            System.out.println(p.getUname()+" "+amount);
+            //Integer amount = p.getAmount().intValue();
+            System.out.println(p.getUname()+" "+p.getAmount());
         }
         return userAmounts;
     }

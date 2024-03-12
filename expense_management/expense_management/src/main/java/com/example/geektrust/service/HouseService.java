@@ -49,4 +49,8 @@ public class HouseService {
     public House getHouseById(String houseId){
         return houses.getHouseById(houseId);
     }
+    public void moveOut(String houseId, String uname){
+       houses.moveUserOut(houseId,uname);
+
+    }
 }
