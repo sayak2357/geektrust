@@ -3,6 +3,7 @@ package com.example.geektrust.service;
 import com.example.geektrust.dao.SplitWise;
 import com.example.geektrust.dto.Pair;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +60,9 @@ public class SplitWiseService {
                     Double newDue = dueAmount-amount;
                     //Integer newD = newDue.intValue();
                     aOwesB(borrower,lender,amount);
-                    System.out.println(newDue);
+                    DecimalFormat format = new DecimalFormat("0.#");
+
+                    System.out.println(format.format(newDue));
                     break;
                 }
             }
@@ -78,7 +81,8 @@ public class SplitWiseService {
                 (a,b) -> a.getAmount()== b.getAmount() ? a.getUname().compareTo(b.getUname()): b.getAmount().compareTo(a.getAmount()));
         for(Pair p:userAmounts){
             //Integer amount = p.getAmount().intValue();
-            System.out.println(p.getUname()+" "+p.getAmount());
+            DecimalFormat format = new DecimalFormat("0.#");
+            System.out.println(p.getUname()+" "+format.format(p.getAmount()));
         }
         return userAmounts;
     }
