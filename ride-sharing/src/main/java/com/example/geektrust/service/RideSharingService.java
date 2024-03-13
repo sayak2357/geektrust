@@ -10,6 +10,8 @@ import com.example.geektrust.repository.RideRepo;
 import com.example.geektrust.repository.RiderRepo;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,11 +64,12 @@ public class RideSharingService {
                     System.out.println("INVALID_RIDE");
                     return;
                 }
-                Ride ride = new Ride(rideId,riderId);
-                rideRepo.addRide(rideId,ride);
                 Driver driver = nearestDrivers.get(matchIndex-1).getDriver();
                 driver.setOnRide(true);
                 rider.setOnRide(true);
+                Ride ride = new Ride(rideId,riderId);
+                ride.setDriverId(driver.getId());
+                rideRepo.addRide(rideId,ride);
                 System.out.println("RIDE_STARTED "+rideId);
             }
             else if(command.equals("STOP_RIDE")){
@@ -84,7 +87,13 @@ public class RideSharingService {
                 ride.setTime(time);
                 Rider rider = riderRepo.getRider(ride.getRiderId());
                 Double bill = generateBill(rider.getX(),rider.getY(),destX,destY, ride.getTime());
-                ride.setBill(bill);
+                ride.setBill(round(bill,2));
+                System.out.println("RIDE_STOPPED "+rideId);
+            }
+            else if(command.equals("BILL")){
+                String rideId = stream[1];
+                Ride ride = rideRepo.getRideById(rideId);
+                System.out.println("BILL "+rideId+" "+ride.getDriverId()+" "+ride.getBill());
             }
         }
     }
@@ -130,5 +139,12 @@ public class RideSharingService {
     private Double findDistance(Integer x1, Integer y1, Integer x2, Integer y2){
         Double temp = (double) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
         return Math.sqrt(temp);
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

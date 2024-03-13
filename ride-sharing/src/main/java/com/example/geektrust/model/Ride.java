@@ -1,14 +1,22 @@
 package com.example.geektrust.model;
 
 public class Ride {
-    private String rideId, riderId;
+    private String rideId, riderId, driverId;
     private Integer destX, destY, time;
     private Double bill;
     private boolean finished;
     public Ride(String rideId, String riderId){
-        this.rideId = rideId;
+        this.riderId = riderId;
         this.rideId = riderId;
         this.finished = false;
+    }
+
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
     }
 
     public String getRiderId() {
