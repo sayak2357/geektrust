@@ -66,7 +66,25 @@ public class RideSharingService {
                 rideRepo.addRide(rideId,ride);
                 Driver driver = nearestDrivers.get(matchIndex-1).getDriver();
                 driver.setOnRide(true);
+                rider.setOnRide(true);
                 System.out.println("RIDE_STARTED "+rideId);
+            }
+            else if(command.equals("STOP_RIDE")){
+                String rideId = stream[1];
+                Integer destX = Integer.parseInt(stream[2]);
+                Integer destY = Integer.parseInt(stream[3]);
+                Integer time = Integer.parseInt(stream[4]);
+                Ride ride = rideRepo.getRideById(rideId);
+                if(ride==null || ride.isFinished()){
+                    System.out.println("INVALID_RIDE");
+                    return;
+                }
+                ride.setDestX(destX);
+                ride.setDestY(destY);
+                ride.setTime(time);
+                Rider rider = riderRepo.getRider(ride.getRiderId());
+                Double bill = generateBill(rider.getX(),rider.getY(),destX,destY, ride.getTime());
+                ride.setBill(bill);
             }
         }
     }
@@ -99,6 +117,15 @@ public class RideSharingService {
             }
             System.out.println();
         }
+    }
+    private Double generateBill(Integer x1, Integer y1, Integer x2, Integer y2, Integer time){
+        Double total = 0d;
+        Double distanceInKm = findDistance(x1,y1,x2,y2);
+        total += 50;
+        total += distanceInKm*6.5;
+        total += time*2;
+        total *= 1.2;
+        return total;
     }
     private Double findDistance(Integer x1, Integer y1, Integer x2, Integer y2){
         Double temp = (double) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
