@@ -85,9 +85,13 @@ public class RideSharingService {
                 ride.setDestX(destX);
                 ride.setDestY(destY);
                 ride.setTime(time);
+                ride.setFinished(true);
                 Rider rider = riderRepo.getRider(ride.getRiderId());
                 Double bill = generateBill(rider.getX(),rider.getY(),destX,destY, ride.getTime());
                 ride.setBill(round(bill,2));
+                rider.setOnRide(false);
+                Driver driver = driverRepo.getDriver(ride.getDriverId());
+                driver.setOnRide(false);
                 System.out.println("RIDE_STOPPED "+rideId);
             }
             else if(command.equals("BILL")){
