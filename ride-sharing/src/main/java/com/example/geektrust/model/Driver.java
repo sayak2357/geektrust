@@ -4,25 +4,26 @@ public class Driver {
     private String id;
     private boolean onRide;
 
-    private Integer x,y;
+    private Double x;
+    private Double y;
 
     public String getId() {
         return id;
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
@@ -37,7 +38,7 @@ public class Driver {
     public void setId(String id) {
         this.id = id;
     }
-    public Driver(String id, Integer x, Integer y){
+    public Driver(String id, Double x, Double y){
         this.id = id;
         this.onRide = false;
         this.x = x;

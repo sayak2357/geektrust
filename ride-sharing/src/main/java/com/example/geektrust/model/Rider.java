@@ -4,21 +4,22 @@ public class Rider {
     private String id;
     private boolean onRide;
 
-    private Integer x,y;
+    private Double x;
+    private Double y;
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
@@ -38,7 +39,7 @@ public class Rider {
         this.onRide = onRide;
     }
 
-    public Rider(String id, Integer x, Integer y){
+    public Rider(String id, Double x, Double y){
         this.id = id;
         this.onRide = false;
         this.x = x;

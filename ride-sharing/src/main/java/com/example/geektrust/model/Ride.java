@@ -2,7 +2,9 @@ package com.example.geektrust.model;
 
 public class Ride {
     private String rideId, riderId, driverId;
-    private Integer destX, destY, time;
+    private Double destX;
+    private Double destY;
+    private Double time;
     private Double bill;
     private boolean finished;
     public Ride(String rideId, String riderId){
@@ -31,27 +33,27 @@ public class Ride {
         return bill;
     }
 
-    public Integer getDestX() {
+    public Double getDestX() {
         return destX;
     }
 
-    public void setDestX(Integer destX) {
+    public void setDestX(Double destX) {
         this.destX = destX;
     }
 
-    public Integer getDestY() {
+    public Double getDestY() {
         return destY;
     }
 
-    public void setDestY(Integer destY) {
+    public void setDestY(Double destY) {
         this.destY = destY;
     }
 
-    public Integer getTime() {
+    public Double getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(Double time) {
         this.time = time;
     }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class DriverRepo {
     private Map<String, Driver> driverMap;
-    public boolean addDriver(String id, Integer x, Integer y){
+    public boolean addDriver(String id, Double x, Double y){
         if(driverMap.containsKey(id))
             return false;
         driverMap.put(id,new Driver(id,x,y));

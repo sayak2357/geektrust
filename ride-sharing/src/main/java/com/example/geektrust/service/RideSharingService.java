@@ -26,11 +26,15 @@ public class RideSharingService {
     private RiderRepo riderRepo;
     private MatchRepo matchRepo;
     private RideRepo rideRepo;
+    private BillService billService;
+    private DistanceFinderService distanceFinderService;
     public RideSharingService(){
         this.driverRepo = new DriverRepo();
         this.riderRepo = new RiderRepo();
         this.matchRepo = new MatchRepo();
         this.rideRepo = new RideRepo();
+        this.billService = new BillService();
+        this.distanceFinderService = new DistanceFinderService();
     }
     public void run(Scanner sc){
         while (sc.hasNextLine()) {
@@ -39,14 +43,14 @@ public class RideSharingService {
             String command = stream[0];
             if(command.equals("ADD_DRIVER")){
                 String id = stream[1];
-                Integer x = Integer.parseInt(stream[2]);
-                Integer y = Integer.parseInt(stream[3]);
+                Double x = Double.parseDouble(stream[2]);
+                Double y = Double.parseDouble(stream[3]);
                 driverRepo.addDriver(id,x,y);
             }
             else if(command.equals("ADD_RIDER")){
                 String id = stream[1];
-                Integer x = Integer.parseInt(stream[2]);
-                Integer y = Integer.parseInt(stream[3]);
+                Double x = Double.parseDouble(stream[2]);
+                Double y = Double.parseDouble(stream[3]);
                 riderRepo.addRider(id,x,y);
             }
             else if(command.equals("MATCH")){
@@ -74,9 +78,9 @@ public class RideSharingService {
             }
             else if(command.equals("STOP_RIDE")){
                 String rideId = stream[1];
-                Integer destX = Integer.parseInt(stream[2]);
-                Integer destY = Integer.parseInt(stream[3]);
-                Integer time = Integer.parseInt(stream[4]);
+                Double destX = Double.parseDouble(stream[2]);
+                Double destY = Double.parseDouble(stream[3]);
+                Double time = Double.parseDouble(stream[4]);
                 Ride ride = rideRepo.getRideById(rideId);
                 if(ride==null || ride.isFinished()){
                     System.out.println("INVALID_RIDE");
@@ -87,7 +91,8 @@ public class RideSharingService {
                 ride.setTime(time);
                 ride.setFinished(true);
                 Rider rider = riderRepo.getRider(ride.getRiderId());
-                Double bill = generateBill(rider.getX(),rider.getY(),destX,destY, ride.getTime());
+                Double netDistance = distanceFinderService.findDistance(rider.getX(),rider.getY(),destX,destY);
+                Double bill = billService.generateBill(netDistance, ride.getTime());
                 ride.setBill(round(bill,2));
                 rider.setOnRide(false);
                 Driver driver = driverRepo.getDriver(ride.getDriverId());
@@ -104,14 +109,14 @@ public class RideSharingService {
     private void showNearestDriver(String riderId){
         List<Driver> drivers = driverRepo.getDrivers();
         Rider rider = riderRepo.getRider(riderId);
-        Integer x = rider.getX();
-        Integer y = rider.getY();
+        Double x = rider.getX();
+        Double y = rider.getY();
         List<DriverDistancePair> nearestDrivers = new ArrayList<>();
         for(Driver driver:drivers){
             if(!driver.isOnRide()) {
-                Integer driverX = driver.getX();
-                Integer driverY = driver.getY();
-                Double distance = findDistance(x, y, driverX, driverY);
+                Double driverX = driver.getX();
+                Double driverY = driver.getY();
+                Double distance = distanceFinderService.findDistance(x, y, driverX, driverY);
                 if (distance <= DISTANCE_LIMIT) {
                     nearestDrivers.add(new DriverDistancePair(driver, distance));
                 }
@@ -131,19 +136,7 @@ public class RideSharingService {
             System.out.println();
         }
     }
-    private Double generateBill(Integer x1, Integer y1, Integer x2, Integer y2, Integer time){
-        Double total = 0d;
-        Double distanceInKm = findDistance(x1,y1,x2,y2);
-        total += 50;
-        total += distanceInKm*6.5;
-        total += time*2;
-        total *= 1.2;
-        return total;
-    }
-    private Double findDistance(Integer x1, Integer y1, Integer x2, Integer y2){
-        Double temp = (double) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
-        return Math.sqrt(temp);
-    }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
