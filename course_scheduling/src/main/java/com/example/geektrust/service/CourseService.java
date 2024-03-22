@@ -4,10 +4,10 @@ import com.example.geektrust.model.Course;
 import com.example.geektrust.repository.CourseRegistrationRepository;
 import com.example.geektrust.repository.CourseRepository;
 
-public class ValidationService {
+public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseRegistrationRepository courseRegistrationRepository;
-    public ValidationService(CourseRepository courseRepository,CourseRegistrationRepository courseRegistrationRepository){
+    public CourseService(CourseRepository courseRepository, CourseRegistrationRepository courseRegistrationRepository){
         this.courseRepository = courseRepository;
         this.courseRegistrationRepository = courseRegistrationRepository;
     }
@@ -30,5 +30,26 @@ public class ValidationService {
         if(status.equals("CONFIRMED"))
             course.setAllotted(true);
         return status;
+    }
+    public void cancelReg(String courseRegId){
+        String courseName = getCourseName(courseRegId);
+        String uname = getCourseUserName(courseRegId);
+        Course course = courseRepository.getCourseByName(courseName);
+        if(course.isAllotted()){
+            System.out.println(courseRegId+" "+"CANCEL_REJECTED");
+        }
+        else{
+
+            courseRegistrationRepository.removeUser(course.getCourseOfferingId(),uname);
+            System.out.println(courseRegId+" "+"CANCEL_ACCEPTED");
+        }
+    }
+    private String getCourseName(String courseRegId){
+        String[] vals = courseRegId.split("-");
+        return vals[vals.length-1];
+    }
+    private String getCourseUserName(String courseRegId){
+        String[] vals = courseRegId.split("-");
+        return vals[vals.length-2];
     }
 }

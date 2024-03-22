@@ -4,8 +4,6 @@ import com.example.geektrust.model.Course;
 import com.example.geektrust.repository.CourseRegistrationRepository;
 import com.example.geektrust.repository.CourseRepository;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -14,11 +12,11 @@ public class ApplicationService {
 
     private final CourseRepository courseRepository;
     private final CourseRegistrationRepository courseRegistrationRepository;
-    private final ValidationService validationService;
+    private final CourseService courseService;
     public ApplicationService(){
         this.courseRepository = new CourseRepository();
         this.courseRegistrationRepository = new CourseRegistrationRepository();
-        this.validationService = new ValidationService(courseRepository,courseRegistrationRepository);
+        this.courseService = new CourseService(courseRepository,courseRegistrationRepository);
     }
     public void run(Scanner sc){
         while (sc.hasNextLine()) {
@@ -49,7 +47,7 @@ public class ApplicationService {
                 else{
                     String email = ops[1];
                     String courseId = ops[2];
-                    if(validationService.canNewRegistration(courseId)){
+                    if(courseService.canNewRegistration(courseId)){
                         courseRegistrationRepository.addUserToCourse(courseId,email);
                         Course course = courseRepository.getCourseById(courseId);
                         String name = course.getTitle();
@@ -77,11 +75,20 @@ public class ApplicationService {
                         String courseRegId = "REG_COURSE-"+empName+"-"+course.getTitle();
                         String instructor = course.getInstructor();
                         String date = course.getDate();
-                        String status = validationService.courseStatus(courseId);
+                        String status = courseService.courseStatus(courseId);
                         String courseName = course.getTitle();
                         System.out.println(courseRegId+" "+userEmail+" "+courseId+" "+courseName+" "+instructor+" "+date+" "+status);
                     }
 
+                }
+            }
+            else if(op.equals("CANCEL")){
+                Integer commandLength = ops.length;
+                if(commandLength<2){
+                    System.out.println("INPUT_DATA_ERROR");
+                }
+                else{
+                    courseService.cancelReg(ops[1]);
                 }
             }
         }
@@ -91,5 +98,6 @@ public class ApplicationService {
         String[] nameAndDomain = email.split("@");
         return nameAndDomain[0];
     }
+
 
 }

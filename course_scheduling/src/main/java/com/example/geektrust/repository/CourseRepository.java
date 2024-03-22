@@ -23,4 +23,14 @@ public class CourseRepository {
             return courseMap.get(id);
         return null;
     }
+    public Course getCourseByName(String name){
+        Course currCourse = null;
+        for(Course course:courseMap.values()){
+            if(course.getTitle().equals(name)) {
+                currCourse = course;
+                break;
+            }
+        }
+        return currCourse;
+    }
 }

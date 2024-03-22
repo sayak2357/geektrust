@@ -25,6 +25,18 @@ public class CourseRegistrationRepository {
             courseRegitrationMap.put(courseOfferingId,users);
         }
     }
+    public void removeUser(String courseOfferingId,String uname){
+        List<String> userEmails = courseRegitrationMap.get(courseOfferingId);
+        int n = uname.length();
+        for(int i=0;i<userEmails.size();i++){
+            String currUname = userEmails.get(i).substring(0,n);
+            if(currUname.equals(uname)){
+                userEmails.remove(i);
+                break;
+            }
+        }
+        courseRegitrationMap.put(courseOfferingId,userEmails);
+    }
     public Integer getRegisteredUsersSize(String courseOfferingId){
         Integer size = 0;
         if(courseRegitrationMap.containsKey(courseOfferingId)){
