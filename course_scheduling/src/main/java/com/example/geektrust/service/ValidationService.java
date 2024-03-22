@@ -18,4 +18,17 @@ public class ValidationService {
         Integer userCount = courseRegistrationRepository.getRegisteredUsersSize(courseOfferingId);
         return userCount<upperLimit;
     }
+    public String courseStatus(String courseOfferingId){
+        String status = "CANCELLED";
+        Course course = courseRepository.getCourseById(courseOfferingId);
+        Integer upperLimit = course.getMaxEmployeeCount();
+        Integer lowerLimit = course.getMinEmployeeCount();
+        Integer userCount = courseRegistrationRepository.getRegisteredUsersSize(courseOfferingId);
+        if(userCount>=lowerLimit && userCount<=upperLimit){
+            status = "CONFIRMED";
+        }
+        if(status.equals("CONFIRMED"))
+            course.setAllotted(true);
+        return status;
+    }
 }

@@ -6,6 +6,8 @@ import com.example.geektrust.repository.CourseRepository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class ApplicationService {
@@ -60,6 +62,28 @@ public class ApplicationService {
                     }
                 }
             }
+            else if(op.equals("ALLOT")){
+                Integer commandLength = ops.length;
+                if(commandLength<2){
+                    System.out.println("INPUT_DATA_ERROR");
+                }
+                else{
+                    String courseId = ops[1];
+                    Course course = courseRepository.getCourseById(courseId);
+                    List<String> registeredUsers = courseRegistrationRepository.getRegisteredUsers(courseId);
+                    Collections.sort(registeredUsers);
+                    for(String userEmail:registeredUsers){
+                        String empName = findName(userEmail);
+                        String courseRegId = "REG_COURSE-"+empName+"-"+course.getTitle();
+                        String instructor = course.getInstructor();
+                        String date = course.getDate();
+                        String status = validationService.courseStatus(courseId);
+                        String courseName = course.getTitle();
+                        System.out.println(courseRegId+" "+userEmail+" "+courseId+" "+courseName+" "+instructor+" "+date+" "+status);
+                    }
+
+                }
+            }
         }
         sc.close(); // closes the scanner
     }
@@ -67,4 +91,5 @@ public class ApplicationService {
         String[] nameAndDomain = email.split("@");
         return nameAndDomain[0];
     }
+
 }

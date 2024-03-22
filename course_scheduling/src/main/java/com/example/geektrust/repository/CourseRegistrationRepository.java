@@ -33,4 +33,10 @@ public class CourseRegistrationRepository {
         }
         return size;
     }
+    public List<String> getRegisteredUsers(String courseOfferingId){
+        if(courseRegitrationMap.containsKey(courseOfferingId)){
+            return courseRegitrationMap.get(courseOfferingId);
+        }
+        return null;
+    }
 }
