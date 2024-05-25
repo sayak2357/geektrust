@@ -8,32 +8,39 @@ public class Helper {
             System.out.println("ADD_SUBSCRIPTION_FAILED INVALID_DATE");
             return;
         }
-        if(category.equals("MUSIC")){
-            if(sub.getMusic()!=null){
-                System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
-            }
-            else{
-                sub.setMusic(plan);
-                sub.setSubscription(true);
-            }
+        switch (category){
+            case "MUSIC": addMusic(sub,plan);break;
+            case "VIDEO": addVideo(sub,plan);break;
+            case "PODCAST": addPodcast(sub,plan);break;
         }
-        else if(category.equals("VIDEO")){
-            if(sub.getVideo()!=null){
-                System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
-            }
-            else{
-                sub.setVideo(plan);
-                sub.setSubscription(true);
-            }
+
+    }
+    private void addMusic(Subscription sub, String plan){
+
+        if(sub.getMusic()!=null){
+            System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
         }
-        else if(category.equals("PODCAST")){
-            if(sub.getPodcast()!=null){
-                System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
-            }
-            else{
-                sub.setPodcast(plan);
-                sub.setSubscription(true);
-            }
+        else{
+            sub.setMusic(plan);
+            sub.setSubscription(true);
+        }
+    }
+    private void addVideo(Subscription sub, String plan){
+        if(sub.getVideo()!=null){
+            System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
+        }
+        else{
+            sub.setVideo(plan);
+            sub.setSubscription(true);
+        }
+    }
+    private void addPodcast(Subscription sub, String plan){
+        if(sub.getPodcast()!=null){
+            System.out.println("ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY");
+        }
+        else{
+            sub.setPodcast(plan);
+            sub.setSubscription(true);
         }
     }
     public void addTopup(Subscription sub,String type, Integer count){
