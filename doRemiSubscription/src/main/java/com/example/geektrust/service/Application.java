@@ -27,7 +27,7 @@ public class Application {
                     sub.setStartDate(startDate);
                 }
                 else {
-                    System.out.println("ADD_SUBSCRIPTION_FAILED INVALID_DATE");
+                    System.out.println("INVALID_DATE");
                 }
             }
             else if(op.equals("ADD_SUBSCRIPTION")){

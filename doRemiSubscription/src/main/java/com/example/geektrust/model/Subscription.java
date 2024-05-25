@@ -5,7 +5,7 @@ public class Subscription {
     private String startDate;
     private String topup;
     private Integer deviceCount;
-
+    private boolean isSubscription = false;
     public Integer getDeviceCount() {
         return deviceCount;
     }
@@ -53,5 +53,13 @@ public class Subscription {
 
     public void setTopup(String topup) {
         this.topup = topup;
+    }
+
+    public boolean isSubscription() {
+        return isSubscription;
+    }
+
+    public void setSubscription(boolean subscription) {
+        isSubscription = subscription;
     }
 }
