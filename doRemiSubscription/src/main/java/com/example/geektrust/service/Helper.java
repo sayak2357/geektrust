@@ -41,7 +41,9 @@ public class Helper {
             System.out.println("ADD_TOPUP_FAILED DUPLICATE_TOPUP");
         }
         else{
-            if(!sub.isSubscription())
+            if(sub.getStartDate()==null)
+                System.out.println("ADD_TOPUP_FAILED INVALID_DATE");
+            else if(!sub.isSubscription())
                 System.out.println("ADD_TOPUP_FAILED SUBSCRIPTIONS_NOT_FOUND");
             else {
                 sub.setTopup(type);

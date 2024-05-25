@@ -61,7 +61,7 @@ public class Application {
             }
             catch (ParseException e)
             {
-                System.out.println(date+" is Invalid Date format");
+                //System.out.println(date+" is Invalid Date format");
                 return false;
             }
             /* Return true if date format is valid */
