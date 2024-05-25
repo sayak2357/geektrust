@@ -72,7 +72,7 @@ public class CostAndRenewal {
         String subStartDate = sub.getStartDate();
         try {
             Date subStartJavaDate = sdfrmt.parse(subStartDate);
-            if (sub.getVideo() != null) {
+            if (sub.getPodcast() != null) {
                 String plan = sub.getPodcast();
                 Date endDate = new Date();
 
