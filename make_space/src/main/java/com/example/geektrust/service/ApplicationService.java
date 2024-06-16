@@ -1,6 +1,5 @@
 package com.example.geektrust.service;
 
-import com.example.geektrust.entity.TimeSlot;
 import com.example.geektrust.repository.Rooms;
 
 import java.time.LocalTime;
@@ -9,9 +8,10 @@ import java.util.Scanner;
 
 public class ApplicationService {
     private BookingService bookingService;
-    private Rooms rooms;
+    private TimestampSyntaxChecker timestampSyntaxChecker;
     public ApplicationService(){
         this.bookingService = new BookingService();
+        this.timestampSyntaxChecker = new TimestampSyntaxChecker();
     }
 
     public void run(Scanner sc){
@@ -35,7 +35,7 @@ public class ApplicationService {
                 String endTime = tokens[2];
                 Integer persons = Integer.parseInt(tokens[3]);
 
-                if(!validateTimestamp(startTime,endTime) || !intervalCheck(startTime,endTime))
+                if(!timestampSyntaxChecker.isValidTimestamps(startTime,endTime))
                     System.out.println("INCORRECT_INPUT");
                 else {
                     bookingService.allotRoom(startTime, endTime, persons);
@@ -43,19 +43,5 @@ public class ApplicationService {
             }
         }
     }
-    private boolean validateTimestamp(String startTime, String endTime){
-        try {
-            LocalTime start = LocalTime.parse(startTime);
-            LocalTime end = LocalTime.parse(endTime);
-            return end.isAfter(start);
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
-    private boolean intervalCheck(String startTime, String endTime){
-        Integer smins = Integer.valueOf(startTime.split(":")[1]);
-        Integer emins = Integer.valueOf(endTime.split(":")[1]);
-        return !(smins%15>0 || emins%15>0);
-    }
+
 }
