@@ -15,7 +15,7 @@ public class Main {
             Scanner sc = new Scanner(fis);
             ApplicationService applicationService = new ApplicationService();
             applicationService.run(sc);
-            sc.close(); // closes the scanner
+            sc.close();
         } catch (IOException e) {
         }
 

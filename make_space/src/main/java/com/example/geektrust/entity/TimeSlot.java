@@ -1,17 +1,17 @@
 package com.example.geektrust.entity;
 
 public class TimeSlot {
-    int start,end;
-    public TimeSlot(int start, int end){
+    String start,end;
+    public TimeSlot(String start, String end){
         this.start = start;
         this.end = end;
     }
 
-    public int getStart() {
+    public String getStart() {
         return start;
     }
 
-    public int getEnd() {
+    public String getEnd() {
         return end;
     }
 }
