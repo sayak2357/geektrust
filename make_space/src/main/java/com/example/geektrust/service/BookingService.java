@@ -19,9 +19,10 @@ public class BookingService {
         this.allRooms = rooms.getAllRooms();
         addRooms(allRooms);
     }
-    public void addRoom(String room){
+    public boolean addRoom(String room){
         List<TimeSlot> ls = new ArrayList<>();
         this.bookings.put(room,ls);
+        return true;
     }
     public void addRooms(List<Room> rooms){
         for(Room r:rooms) {
@@ -87,13 +88,13 @@ public class BookingService {
         }
         return false;
     }
-    public void allotRoom(String startTime, String endTime, Integer count){
+    public boolean allotRoom(String startTime, String endTime, Integer count){
         TimeSlot curr = new TimeSlot(startTime,endTime);
         boolean roomBooked = false;
 
         if(bufferSlotOverlap(startTime,endTime)){
             System.out.println("NO_VACANT_ROOM");
-            return;
+            return false;
         }
         for(Room room:this.allRooms){
             if(room.getCapacity()>=count)
@@ -106,7 +107,10 @@ public class BookingService {
                 }
             }
         }
-        if(!roomBooked)
+        if(!roomBooked) {
             System.out.println("NO_VACANT_ROOM");
+            return false;
+        }
+        return true;
     }
 }
