@@ -59,7 +59,6 @@ public class RideSharingService {
                 showNearestDriver(riderId);
             }
             else if(command.equals("START_RIDE")){
-                boolean errorFlag = false;
                 String rideId = stream[1];
                 Integer matchIndex = Integer.parseInt(stream[2]);
                 String riderId = stream[3];
@@ -68,10 +67,9 @@ public class RideSharingService {
                 List<DriverDistancePair> nearestDrivers = matchRepo.getNearestDrivers(riderId);
                 if(rider==null || rider.isOnRide() || existingRide!=null || nearestDrivers==null || nearestDrivers.size()<matchIndex){
                     System.out.println("INVALID_RIDE");
-                    errorFlag = true;
-                }
-                if(errorFlag)
                     continue;
+                }
+
                 Driver driver = nearestDrivers.get(matchIndex-1).getDriver();
                 driver.setOnRide(true);
                 rider.setOnRide(true);
@@ -81,7 +79,6 @@ public class RideSharingService {
                 System.out.println("RIDE_STARTED "+rideId);
             }
             else if(command.equals("STOP_RIDE")){
-                boolean errorFlag = false;
                 String rideId = stream[1];
                 Double destX = Double.parseDouble(stream[2]);
                 Double destY = Double.parseDouble(stream[3]);
@@ -89,10 +86,8 @@ public class RideSharingService {
                 Ride ride = rideRepo.getRideById(rideId);
                 if(ride==null || ride.isFinished()){
                     System.out.println("INVALID_RIDE");
-                    errorFlag = true;
-                }
-                if(errorFlag)
                     continue;
+                }
                 ride.setDestX(destX);
                 ride.setDestY(destY);
                 ride.setTime(time);
@@ -109,6 +104,10 @@ public class RideSharingService {
             else if(command.equals("BILL")){
                 String rideId = stream[1];
                 Ride ride = rideRepo.getRideById(rideId);
+                if(ride==null) {
+                    System.out.println("INVALID_RIDE");
+                    continue;
+                }
                 double netBill = round(ride.getBill(),2);
                 DecimalFormat dec = new DecimalFormat("#0.00");
                 System.out.println("BILL "+rideId+" "+ride.getDriverId()+" "+dec.format(netBill));
