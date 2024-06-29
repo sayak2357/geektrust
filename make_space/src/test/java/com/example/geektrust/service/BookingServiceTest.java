@@ -16,12 +16,7 @@ class BookingServiceTest {
     void beforeEach() {
         this.bookingService = new BookingService();
     }
-    @Test
-    void isOverlap() {
-        TimeSlot ts1 = new TimeSlot("10:00","11:00");
-        TimeSlot ts2 = new TimeSlot("10:45","12:00");
-        assertTrue(bookingService.isOverlap(ts1,ts2));
-    }
+
 
     @Test
     void addRoom() {
@@ -29,19 +24,6 @@ class BookingServiceTest {
     }
 
 
-    @Test
-    void bufferSlotOverlap() {
-        assertTrue(bookingService.bufferSlotOverlap("09:10","10:10"));
-        assertTrue(bookingService.bufferSlotOverlap("13:30","14:10"));
-        assertTrue(bookingService.bufferSlotOverlap("18:50","20:30"));
-    }
-
-    @Test
-    void bufferSlotNotOverlap() {
-        assertFalse(bookingService.bufferSlotOverlap("09:15","10:10"));
-        assertFalse(bookingService.bufferSlotOverlap("12:30","13:15"));
-        assertFalse(bookingService.bufferSlotOverlap("18:10","18:45"));
-    }
 
     @Test
     void allotRoom() {

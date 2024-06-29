@@ -2,12 +2,13 @@ package com.example.geektrust.service;
 
 import com.example.geektrust.entity.TimeSlot;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-public class BufferTime {
-    List<TimeSlot> bufferSlots;
-    public BufferTime(){
+public class BufferTimeClass {
+    private List<TimeSlot> bufferSlots;
+    private HelperMethods helperMethods;
+    public BufferTimeClass(){
+        this.helperMethods = new HelperMethods();
         this.bufferSlots = new ArrayList<>();
         populateBufferTime();
     }
@@ -22,4 +23,15 @@ public class BufferTime {
     public List<TimeSlot> getBufferSlots(){
         return this.bufferSlots;
     }
+
+    public boolean bufferSlotOverlap(String startTime, String endTime){
+        TimeSlot curr = new TimeSlot(startTime,endTime);
+        for(TimeSlot ts:this.bufferSlots){
+            if(helperMethods.isOverlap(ts,curr)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

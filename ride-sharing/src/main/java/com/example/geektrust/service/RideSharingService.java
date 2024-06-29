@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 import static com.example.geektrust.constants.Constants.DISTANCE_LIMIT;
 import static com.example.geektrust.constants.Constants.NEAREST_DRIVER_DISPLAY_LIMIT;
@@ -92,7 +93,7 @@ public class RideSharingService {
                 ride.setFinished(true);
                 Rider rider = riderRepo.getRider(ride.getRiderId());
                 Double netDistance = distanceFinderService.findDistance(rider.getX(),rider.getY(),destX,destY);
-                Double bill = billService.generateBill(netDistance, ride.getTime());
+                Double bill = billService.generateBill(round(netDistance,2), ride.getTime());
                 ride.setBill(round(bill,2));
                 rider.setOnRide(false);
                 Driver driver = driverRepo.getDriver(ride.getDriverId());
@@ -102,7 +103,9 @@ public class RideSharingService {
             else if(command.equals("BILL")){
                 String rideId = stream[1];
                 Ride ride = rideRepo.getRideById(rideId);
-                System.out.println("BILL "+rideId+" "+ride.getDriverId()+" "+ride.getBill());
+                double netBill = round(ride.getBill(),2);
+                DecimalFormat dec = new DecimalFormat("#0.00");
+                System.out.println("BILL "+rideId+" "+ride.getDriverId()+" "+dec.format(netBill));
             }
         }
     }

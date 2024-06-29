@@ -1,5 +1,8 @@
 package com.example.geektrust.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class BillService {
     public Double generateBill(Double distance, Double time){
         Double total = 0d;
