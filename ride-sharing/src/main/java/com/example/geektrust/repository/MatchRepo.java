@@ -12,8 +12,9 @@ public class MatchRepo {
     public MatchRepo(){
         this.nearestDrivers = new HashMap<>();
     }
-    public void putNearestDrivers(String riderId,List<DriverDistancePair> driverDistances){
+    public boolean putNearestDrivers(String riderId,List<DriverDistancePair> driverDistances){
         nearestDrivers.put(riderId,driverDistances);
+        return true;
     }
     public List<DriverDistancePair> getNearestDrivers(String riderId){
         return nearestDrivers.containsKey(riderId)? nearestDrivers.get(riderId):null;
