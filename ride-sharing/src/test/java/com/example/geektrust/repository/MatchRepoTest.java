@@ -32,4 +32,9 @@ class MatchRepoTest {
         this.matchRepo.putNearestDrivers("r1",this.driverDistancePairList);
         assertNotNull(this.matchRepo.getNearestDrivers("r1"));
     }
+    @Test
+    void getNearestDriversFailure() {
+        this.matchRepo.putNearestDrivers("r1",this.driverDistancePairList);
+        assertNull(this.matchRepo.getNearestDrivers("r2"));
+    }
 }
