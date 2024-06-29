@@ -59,6 +59,7 @@ public class RideSharingService {
                 showNearestDriver(riderId);
             }
             else if(command.equals("START_RIDE")){
+                boolean errorFlag = false;
                 String rideId = stream[1];
                 Integer matchIndex = Integer.parseInt(stream[2]);
                 String riderId = stream[3];
@@ -67,8 +68,10 @@ public class RideSharingService {
                 List<DriverDistancePair> nearestDrivers = matchRepo.getNearestDrivers(riderId);
                 if(rider==null || rider.isOnRide() || existingRide!=null || nearestDrivers==null || nearestDrivers.size()<matchIndex){
                     System.out.println("INVALID_RIDE");
-                    return;
+                    errorFlag = true;
                 }
+                if(errorFlag)
+                    continue;
                 Driver driver = nearestDrivers.get(matchIndex-1).getDriver();
                 driver.setOnRide(true);
                 rider.setOnRide(true);
@@ -78,6 +81,7 @@ public class RideSharingService {
                 System.out.println("RIDE_STARTED "+rideId);
             }
             else if(command.equals("STOP_RIDE")){
+                boolean errorFlag = false;
                 String rideId = stream[1];
                 Double destX = Double.parseDouble(stream[2]);
                 Double destY = Double.parseDouble(stream[3]);
@@ -85,8 +89,10 @@ public class RideSharingService {
                 Ride ride = rideRepo.getRideById(rideId);
                 if(ride==null || ride.isFinished()){
                     System.out.println("INVALID_RIDE");
-                    return;
+                    errorFlag = true;
                 }
+                if(errorFlag)
+                    continue;
                 ride.setDestX(destX);
                 ride.setDestY(destY);
                 ride.setTime(time);
@@ -125,7 +131,7 @@ public class RideSharingService {
                 }
             }
         }
-        Collections.sort(nearestDrivers, (a,b) -> a.getDistance().equals(b.getDistance())? a.getDriver().getId().compareTo(b.getDriver().getId()): a.getDistance().intValue()-b.getDistance().intValue());
+        Collections.sort(nearestDrivers, (a,b) -> a.getDistance().equals(b.getDistance())? a.getDriver().getId().compareTo(b.getDriver().getId()): a.getDistance().compareTo(b.getDistance()));
         matchRepo.putNearestDrivers(riderId,nearestDrivers);
         int n = Math.min(NEAREST_DRIVER_DISPLAY_LIMIT,nearestDrivers.size());
         if(n==0){
