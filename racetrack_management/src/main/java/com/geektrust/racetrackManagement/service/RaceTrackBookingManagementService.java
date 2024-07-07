@@ -11,9 +11,11 @@ import static com.geektrust.racetrackManagement.constants.Constants.*;
 public class RaceTrackBookingManagementService {
     private RacetrackBookingRepo racetrackBookingRepo;
     private HelperService helperService;
+    private RaceTrackConstraintChecker raceTrackConstraintChecker;
     public RaceTrackBookingManagementService(){
         this.racetrackBookingRepo = new RacetrackBookingRepo();
         this.helperService = new HelperService();
+        this.raceTrackConstraintChecker = new RaceTrackConstraintChecker();
     }
     public boolean book(String vehicleType,String vehicleNumber,String startTime){
         String startTimeHour = startTime.split(":")[0];
@@ -27,7 +29,7 @@ public class RaceTrackBookingManagementService {
         String track = "REGULAR";
         List<RacetrackBooking> racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
         String vehicleType = racetrackBooking.getVehicleType();
-        int vehicleBookingCost = extension ? cost: helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
+        int vehicleBookingCost = extension ? cost: raceTrackConstraintChecker.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
         if(racetrackBookingList.size()==0){
             racetrackBooking.setTrack(track);
             racetrackBookingRepo.addBooking(track,racetrackBooking);
@@ -36,7 +38,7 @@ public class RaceTrackBookingManagementService {
             return true;
         }
         int regularConflicts = 0;
-        int numberOfVehiclesAllowed = helperService.getAllowedVehicleCount(track,vehicleType);
+        int numberOfVehiclesAllowed = raceTrackConstraintChecker.getAllowedVehicleCount(track,vehicleType);
 
         for(RacetrackBooking racetrackBooking1:racetrackBookingList){
             if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
@@ -53,8 +55,8 @@ public class RaceTrackBookingManagementService {
         track = "VIP";
         racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
         int vipConflicts = 0;
-        numberOfVehiclesAllowed = helperService.getAllowedVehicleCount(track,vehicleType);
-        vehicleBookingCost = extension ? cost: helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
+        numberOfVehiclesAllowed = raceTrackConstraintChecker.getAllowedVehicleCount(track,vehicleType);
+        vehicleBookingCost = extension ? cost: raceTrackConstraintChecker.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
         for(RacetrackBooking racetrackBooking1:racetrackBookingList){
             if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
                 vipConflicts++;
@@ -75,7 +77,7 @@ public class RaceTrackBookingManagementService {
         Integer cost = EXTENDED_BOOKING_HOURLY_COST;
         List<RacetrackBooking> racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
         String vehicleType = racetrackBooking.getVehicleType();
-        int numberOfVehiclesAllowed = helperService.getAllowedVehicleCount(track,vehicleType);
+        int numberOfVehiclesAllowed = raceTrackConstraintChecker.getAllowedVehicleCount(track,vehicleType);
         int conflicts = 0;
         racetrackBooking.setEndTime(newEndTime);
         for(RacetrackBooking racetrackBooking1:racetrackBookingList){

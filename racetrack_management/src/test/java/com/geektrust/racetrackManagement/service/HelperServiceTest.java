@@ -61,22 +61,5 @@ class HelperServiceTest {
         assertEquals(this.helperService.extensionCostCalculator("16:00","17:10",true),100);
     }
 
-    @Test
-    void getAllowedVehicleCount() {
-        assertEquals(this.helperService.getAllowedVehicleCount("REGULAR","BIKE"),4);
-        assertEquals(this.helperService.getAllowedVehicleCount("REGULAR","CAR"),2);
-        assertEquals(this.helperService.getAllowedVehicleCount("VIP","CAR"),1);
-        assertEquals(this.helperService.getAllowedVehicleCount("REGULAR","SUV"),2);
-        assertEquals(this.helperService.getAllowedVehicleCount("VIP","SUV"),1);
-        assertEquals(this.helperService.getAllowedVehicleCount("VIP","BIKE"),0);
-    }
 
-    @Test
-    void getVehicleBookingCost() {
-        assertEquals(this.helperService.getVehicleBookingCost("REGULAR","BIKE"),60);
-        assertEquals(this.helperService.getVehicleBookingCost("REGULAR","CAR"),120);
-        assertEquals(this.helperService.getVehicleBookingCost("REGULAR","SUV"),200);
-        assertEquals(this.helperService.getVehicleBookingCost("VIP","CAR"),250);
-        assertEquals(this.helperService.getVehicleBookingCost("VIP","SUV"),300);
-    }
 }
