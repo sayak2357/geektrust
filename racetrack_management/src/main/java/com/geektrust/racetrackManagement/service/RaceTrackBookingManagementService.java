@@ -1,9 +1,9 @@
 package com.geektrust.racetrackManagement.service;
 
+import com.geektrust.racetrackManagement.entity.Pair;
 import com.geektrust.racetrackManagement.entity.RacetrackBooking;
 import com.geektrust.racetrackManagement.repository.RacetrackBookingRepo;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static com.geektrust.racetrackManagement.constants.Constants.*;
@@ -103,9 +103,12 @@ public class RaceTrackBookingManagementService {
         int vehicleBookingCost = helperService.extensionCostCalculator(racetrackBooking.getEndTime(), newEndTime,racetrackBooking.isExtended());
         return  newBookingHelper(extended,true,vehicleBookingCost);
     }
-    public void getrevenues(){
+    public Pair getrevenues(){
         Integer regularRevenue = racetrackBookingRepo.getRevenuePerTrack("REGULAR");
         Integer vipRevenue = racetrackBookingRepo.getRevenuePerTrack("VIP");
-        System.out.println(regularRevenue+" "+vipRevenue);
+        Pair res = new Pair();
+        res.setRegularRevenue(regularRevenue);
+        res.setVipRevenue(vipRevenue);
+        return res;
     }
 }

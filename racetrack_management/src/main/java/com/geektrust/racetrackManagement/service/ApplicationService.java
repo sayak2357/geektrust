@@ -1,5 +1,7 @@
 package com.geektrust.racetrackManagement.service;
 
+import com.geektrust.racetrackManagement.entity.Pair;
+
 import java.util.Scanner;
 
 public class ApplicationService {
@@ -43,7 +45,8 @@ public class ApplicationService {
 
             }
             else if(command.equals("REVENUE")){
-                raceTrackBookingManagementService.getrevenues();
+                Pair res = raceTrackBookingManagementService.getrevenues();
+                System.out.println(res.getRegularRevenue()+" "+res.getVipRevenue());
             }
         }
     }
