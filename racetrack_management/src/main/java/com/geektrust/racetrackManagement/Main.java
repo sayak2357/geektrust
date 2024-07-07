@@ -1,6 +1,6 @@
-package com.example.geektrust;
+package com.geektrust.racetrackManagement;
 
-import com.example.geektrust.service.ApplicationService;
+import com.geektrust.racetrackManagement.service.ApplicationService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,12 +10,12 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            ApplicationService rs = new ApplicationService();
+
             FileInputStream fis = new FileInputStream(args[0]);
             Scanner sc = new Scanner(fis);
-            rs.run(sc);
-
-            sc.close(); // closes the scanner
+            ApplicationService applicationService = new ApplicationService();
+            applicationService.run(sc);
+            sc.close();
         } catch (IOException e) {
         }
 
