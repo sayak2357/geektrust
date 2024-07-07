@@ -94,7 +94,7 @@ public class RaceTrackBookingManagementService {
         racetrackBooking.setEndTime(oldEndTime);
         return false;
     }
-    public boolean extendBooking2(String vehicleNumber, String newEndTime){
+    public boolean extendBookingImproved(String vehicleNumber, String newEndTime){
         RacetrackBooking racetrackBooking = racetrackBookingRepo.getRacetrackBookingOfVehicle(vehicleNumber);
         RacetrackBooking extended = racetrackBooking.clone();
         extended.setStartTime(racetrackBooking.getEndTime());

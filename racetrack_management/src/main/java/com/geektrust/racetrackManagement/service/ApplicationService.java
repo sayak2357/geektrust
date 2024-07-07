@@ -36,7 +36,7 @@ public class ApplicationService {
                     System.out.println("INVALID_EXIT_TIME");
                     continue;
                 }
-                if(raceTrackBookingManagementService.extendBooking2(vehicleNumber,newEndTime))
+                if(raceTrackBookingManagementService.extendBookingImproved(vehicleNumber,newEndTime))
                     System.out.println("SUCCESS");
                 else
                     System.out.println("RACETRACK_FULL");
