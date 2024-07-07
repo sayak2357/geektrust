@@ -21,13 +21,13 @@ public class RaceTrackBookingManagementService {
         Integer etHour = stHour+DEFAULT_BOOKING_INTERVAL;
         String endTime = String.valueOf(etHour)+":"+startTime.split(":")[1];
         RacetrackBooking racetrackBooking = new RacetrackBooking(startTime,endTime,vehicleNumber,vehicleType);
-        return newBookingHelper(racetrackBooking);
+        return newBookingHelper(racetrackBooking, false,0);
     }
-    private boolean newBookingHelper(RacetrackBooking racetrackBooking){
+    private boolean newBookingHelper(RacetrackBooking racetrackBooking, boolean extension, Integer cost){
         String track = "REGULAR";
         List<RacetrackBooking> racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
         String vehicleType = racetrackBooking.getVehicleType();
-        int vehicleBookingCost = helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
+        int vehicleBookingCost = extension ? cost: helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
         if(racetrackBookingList.size()==0){
             racetrackBooking.setTrack(track);
             racetrackBookingRepo.addBooking(track,racetrackBooking);
@@ -54,7 +54,7 @@ public class RaceTrackBookingManagementService {
         racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
         int vipConflicts = 0;
         numberOfVehiclesAllowed = helperService.getAllowedVehicleCount(track,vehicleType);
-        vehicleBookingCost = helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
+        vehicleBookingCost = extension ? cost: helperService.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
         for(RacetrackBooking racetrackBooking1:racetrackBookingList){
             if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
                 vipConflicts++;
@@ -95,7 +95,13 @@ public class RaceTrackBookingManagementService {
         return false;
     }
     public boolean extendBooking2(String vehicleNumber, String newEndTime){
-        return  false;
+        RacetrackBooking racetrackBooking = racetrackBookingRepo.getRacetrackBookingOfVehicle(vehicleNumber);
+        RacetrackBooking extended = racetrackBooking.clone();
+        extended.setStartTime(racetrackBooking.getEndTime());
+        extended.setEndTime(newEndTime);
+        extended.isExtended();
+        int vehicleBookingCost = helperService.extensionCostCalculator(racetrackBooking.getEndTime(), newEndTime,racetrackBooking.isExtended());
+        return  newBookingHelper(extended,true,vehicleBookingCost);
     }
     public void getrevenues(){
         Integer regularRevenue = racetrackBookingRepo.getRevenuePerTrack("REGULAR");

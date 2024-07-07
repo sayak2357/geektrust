@@ -52,7 +52,14 @@ public class RacetrackBooking {
         this.endTime = endTime;
     }
 
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     public void setExtended() {
         isExtended = true;
+    }
+    public RacetrackBooking clone(){
+        return new RacetrackBooking(this.startTime,this.endTime,this.vehicleNumber,this.vehicleType);
     }
 }
