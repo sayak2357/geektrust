@@ -10,8 +10,9 @@ public class Rooms {
     public Rooms(){
         allRooms = new ArrayList<>();
     }
-    public void addRoom(Room room){
+    public boolean addRoom(Room room){
         this.allRooms.add(room);
+        return true;
     }
     public List<Room> getAllRooms(){
         allRooms.sort((a,b)-> a.getCapacity()-b.getCapacity());

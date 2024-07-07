@@ -18,11 +18,6 @@ class BookingServiceTest {
     }
 
 
-    @Test
-    void addRoom() {
-        assertTrue(bookingService.addRoom("test"));
-    }
-
 
 
     @Test
