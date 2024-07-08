@@ -37,13 +37,10 @@ public class RaceTrackBookingManagementService {
             racetrackBookingRepo.addBookingOfVehicle(racetrackBooking);
             return true;
         }
-        int regularConflicts = 0;
+        int regularConflicts = findConflicts(racetrackBooking,racetrackBookingList);
+
         int numberOfVehiclesAllowed = raceTrackConstraintChecker.getAllowedVehicleCount(track,vehicleType);
 
-        for(RacetrackBooking racetrackBooking1:racetrackBookingList){
-            if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
-                regularConflicts++;
-        }
         if(regularConflicts<numberOfVehiclesAllowed && numberOfVehiclesAllowed>0){
             racetrackBooking.setTrack(track);
             racetrackBookingRepo.addBooking(track,racetrackBooking);
@@ -54,13 +51,10 @@ public class RaceTrackBookingManagementService {
 
         track = "VIP";
         racetrackBookingList = racetrackBookingRepo.getAllBookings(track);
-        int vipConflicts = 0;
+        int vipConflicts = findConflicts(racetrackBooking,racetrackBookingList);
         numberOfVehiclesAllowed = raceTrackConstraintChecker.getAllowedVehicleCount(track,vehicleType);
         vehicleBookingCost = extension ? cost: raceTrackConstraintChecker.getVehicleBookingCost(track,racetrackBooking.getVehicleType())*DEFAULT_BOOKING_INTERVAL;
-        for(RacetrackBooking racetrackBooking1:racetrackBookingList){
-            if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
-                vipConflicts++;
-        }
+
         if(vipConflicts<numberOfVehiclesAllowed && numberOfVehiclesAllowed>0){
             racetrackBooking.setTrack(track);
             racetrackBookingRepo.addBooking(track,racetrackBooking);
@@ -69,6 +63,14 @@ public class RaceTrackBookingManagementService {
             return true;
         }
         return false;
+    }
+    private Integer findConflicts(RacetrackBooking racetrackBooking, List<RacetrackBooking> racetrackBookingList){
+        int conflicts = 0;
+        for(RacetrackBooking racetrackBooking1:racetrackBookingList){
+            if(helperService.isOverlap(racetrackBooking1,racetrackBooking))
+                conflicts++;
+        }
+        return conflicts;
     }
     public boolean extendBooking(String vehicleNumber, String newEndTime){
         RacetrackBooking racetrackBooking = racetrackBookingRepo.getRacetrackBookingOfVehicle(vehicleNumber);
