@@ -21,7 +21,4 @@ public class Lumpsum {
         return emiNumber;
     }
 
-    public void setEmiNumber(Integer emiNumber) {
-        this.emiNumber = emiNumber;
-    }
 }

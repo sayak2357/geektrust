@@ -17,7 +17,7 @@ public class LedgerCompanyService {
         this.balanceService = new BalanceService(this.loanRepo);
     }
 
-    public void run(String file){
+    public boolean run(String file){
         try {
             FileInputStream fis = new FileInputStream(file);
             Scanner sc = new Scanner(fis); // file to be scanned
@@ -57,5 +57,6 @@ public class LedgerCompanyService {
             sc.close();
         } catch (IOException e) {
         }
+        return true;
     }
 }
