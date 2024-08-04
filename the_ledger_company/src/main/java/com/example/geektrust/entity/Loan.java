@@ -9,6 +9,9 @@ public class Loan {
     private Double principal;
     private Integer number_of_years_tenure;
     private Double interest;
+    private Integer monthlyEmi;
+    private Double netAmount;
+    private List<Lumpsum> lumpsumPayments;
     public Loan(String user, String bank, Double principal, Integer tenure, Double interest){
         this.user = user;
         this.bank  = bank;
@@ -34,10 +37,6 @@ public class Loan {
     public Double getNetAmount() {
         return netAmount;
     }
-
-    private Integer monthlyEmi;
-    private Double netAmount;
-    private List<Lumpsum> lumpsumPayments;
 
     public String getUser() {
         return user;

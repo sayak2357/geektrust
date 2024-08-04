@@ -1,19 +1,19 @@
 package com.example.geektrust.entity;
 
 public class Lumpsum {
-    private Integer amount;
+    private Double amount;
     private Integer emiNumber;
 
-    public Lumpsum(Integer amount, Integer emiNumber) {
+    public Lumpsum(Double amount, Integer emiNumber) {
         this.amount = amount;
         this.emiNumber = emiNumber;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
