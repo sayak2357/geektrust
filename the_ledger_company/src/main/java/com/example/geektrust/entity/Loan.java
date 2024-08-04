@@ -42,33 +42,18 @@ public class Loan {
         return user;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     public Double getInterest() {
         return interest;
-    }
-
-    public void setInterest(Double interest) {
-        this.interest = interest;
     }
 
     public Integer getNumber_of_years_tenure() {
         return number_of_years_tenure;
     }
 
-    public void setNumber_of_years_tenure(Integer number_of_years_tenure) {
-        this.number_of_years_tenure = number_of_years_tenure;
-    }
-
     public String getBank() {
         return bank;
     }
 
-    public void setBank(String bank) {
-        this.bank = bank;
-    }
     public void addLumpsumPayment(Lumpsum lumpsum){
         this.lumpsumPayments.add(lumpsum);
     }

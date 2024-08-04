@@ -40,13 +40,13 @@ public class LedgerCompanyService {
                                             user = tokens[2];
                                             amount = Double.parseDouble(tokens[3]);
                                             emiNumber = Integer.parseInt(tokens[4]);
-                                            loanRepo.addLumpsum(user,amount,emiNumber);
+                                            loanRepo.addLumpsum(user,bank,amount,emiNumber);
                                             break;
                     case "BALANCE":         bank = tokens[1];
                                             user = tokens[2];
                                             emiNumber = Integer.parseInt(tokens[3]);
-                                            Integer totalAmountPaid = balanceService.getTotalAmountPaid(user,emiNumber);
-                                            Integer emisRamaining   = balanceService.getEmisRemaining(user,emiNumber);
+                                            Integer totalAmountPaid = balanceService.getTotalAmountPaid(user,bank,emiNumber);
+                                            Integer emisRamaining   = balanceService.getEmisRemaining(user,bank,emiNumber);
                                             System.out.println(bank+" "+user+" "+totalAmountPaid+" "+emisRamaining);
                                             break;
                     default:

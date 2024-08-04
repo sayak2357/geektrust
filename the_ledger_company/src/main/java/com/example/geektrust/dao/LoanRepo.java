@@ -1,7 +1,9 @@
 package com.example.geektrust.dao;
 
+import com.example.geektrust.constant.Constants;
 import com.example.geektrust.entity.Loan;
 import com.example.geektrust.entity.Lumpsum;
+import static com.example.geektrust.constant.Constants.DELIMETER;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,24 +16,29 @@ public class LoanRepo {
     }
     public boolean addLoan(String bank, String user, Double principal, Integer tenure, Double interest){
         Loan loan = new Loan(user,bank,principal,tenure,interest);
-        if(loanRepos.containsKey(user))
+        String userBank = user+DELIMETER+bank;
+        if(loanRepos.containsKey(userBank))
             return false;
-        loanRepos.put(user,loan);
+        loanRepos.put(userBank,loan);
         return true;
     }
-    public void addLumpsum(String user, Double amount, Integer emiNumber){
+    public void addLumpsum(String user, String bank,Double amount, Integer emiNumber){
         Lumpsum lumpsum  = new Lumpsum(amount,emiNumber);
-        Loan userLoan = loanRepos.get(user);
+        String userBank = user + DELIMETER +bank;
+        Loan userLoan = loanRepos.get(userBank);
         userLoan.addLumpsumPayment(lumpsum);
     }
-    public List<Lumpsum> getLumpsumPayments(String user){
-        Loan userLoan = loanRepos.get(user);
+    public List<Lumpsum> getLumpsumPayments(String user, String bank){
+        String userBank = user+DELIMETER+bank;
+        Loan userLoan = loanRepos.get(userBank);
         return userLoan.getLumpsumPayments();
     }
-    public Integer getMonthlyEmiAmount(String user){
-        return loanRepos.get(user).getMonthlyEmi();
+    public Integer getMonthlyEmiAmount(String user, String bank){
+        String userBank = user+DELIMETER+bank;
+        return loanRepos.get(userBank).getMonthlyEmi();
     }
-    public Double getNetAmount(String user){
-        return loanRepos.get(user).getNetAmount();
+    public Double getNetAmount(String user, String bank){
+        String userBank = user+DELIMETER+bank;
+        return loanRepos.get(userBank).getNetAmount();
     }
 }
