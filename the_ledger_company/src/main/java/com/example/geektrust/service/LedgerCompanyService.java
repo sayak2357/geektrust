@@ -1,7 +1,7 @@
 package com.example.geektrust.service;
 
 import com.example.geektrust.dao.LoanRepo;
-import com.example.geektrust.entity.Loan;
+import com.example.geektrust.dao.LumpsumPaymentRepo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,12 +9,17 @@ import java.util.Scanner;
 
 public class LedgerCompanyService {
     private LoanRepo loanRepo;
+    private LoanService loanService;
+    private LumpsumPaymentRepo lumpsumPaymentRepo;
+    private LumpsumPaymentService lumpsumPaymentService;
     private BalanceService balanceService;
-
     public LedgerCompanyService() {
 
         this.loanRepo = new LoanRepo();
-        this.balanceService = new BalanceService(this.loanRepo);
+        this.lumpsumPaymentRepo = new LumpsumPaymentRepo();
+        this.balanceService = new BalanceService(this.loanRepo, this.lumpsumPaymentRepo);
+        this.loanService = new LoanService(this.loanRepo);
+        this.lumpsumPaymentService = new LumpsumPaymentService(this.lumpsumPaymentRepo);
     }
 
     public boolean run(String file){
@@ -34,13 +39,13 @@ public class LedgerCompanyService {
                                             principal = Double.parseDouble(tokens[3]);
                                             tenure = Integer.parseInt(tokens[4]);
                                             interest = Double.parseDouble(tokens[5]);
-                                            loanRepo.addLoan(bank,user,principal,tenure,interest);
+                                            loanService.addLoan(bank,user,principal,tenure,interest);
                                             break;
                     case "PAYMENT":         bank = tokens[1];
                                             user = tokens[2];
                                             amount = Double.parseDouble(tokens[3]);
                                             emiNumber = Integer.parseInt(tokens[4]);
-                                            loanRepo.addLumpsum(user,bank,amount,emiNumber);
+                                            lumpsumPaymentService.addLumpsum(user,bank,amount,emiNumber);
                                             break;
                     case "BALANCE":         bank = tokens[1];
                                             user = tokens[2];

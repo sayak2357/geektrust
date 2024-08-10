@@ -17,20 +17,6 @@ class LoanTest {
         assertEquals(this.loan.getPrincipal(),100d);
     }
 
-    @Test
-    void getMonthlyEmi() {
-        assertEquals(this.loan.getMonthlyEmi(),9);
-    }
-
-    @Test
-    void getLumpsumPayments() {
-        assertEquals(this.loan.getLumpsumPayments().size(),0);
-    }
-
-    @Test
-    void getNetAmount() {
-        assertEquals(this.loan.getNetAmount(),105);
-    }
 
     @Test
     void getUser() {
@@ -53,9 +39,4 @@ class LoanTest {
         assertEquals(this.loan.getBank(),"testBank");
     }
 
-    @Test
-    void addLumpsumPayment() {
-        this.loan.addLumpsumPayment(new Lumpsum(10d,10));
-        assertEquals(this.loan.getLumpsumPayments().size(),1);
-    }
 }

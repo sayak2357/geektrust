@@ -1,12 +1,9 @@
 package com.example.geektrust.dao;
 
-import com.example.geektrust.constant.Constants;
 import com.example.geektrust.entity.Loan;
-import com.example.geektrust.entity.Lumpsum;
 import static com.example.geektrust.constant.Constants.DELIMETER;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoanRepo {
@@ -22,23 +19,18 @@ public class LoanRepo {
         loanRepos.put(userBank,loan);
         return true;
     }
-    public void addLumpsum(String user, String bank,Double amount, Integer emiNumber){
-        Lumpsum lumpsum  = new Lumpsum(amount,emiNumber);
-        String userBank = user + DELIMETER +bank;
-        Loan userLoan = loanRepos.get(userBank);
-        userLoan.addLumpsumPayment(lumpsum);
-    }
-    public List<Lumpsum> getLumpsumPayments(String user, String bank){
+
+    public Double getPrincipal(String user, String bank){
         String userBank = user+DELIMETER+bank;
-        Loan userLoan = loanRepos.get(userBank);
-        return userLoan.getLumpsumPayments();
+        Loan loan =  loanRepos.get(userBank);
+        return loan.getPrincipal();
     }
-    public Integer getMonthlyEmiAmount(String user, String bank){
+    public Integer getTenure(String user, String bank){
         String userBank = user+DELIMETER+bank;
-        return loanRepos.get(userBank).getMonthlyEmi();
+        return loanRepos.get(userBank).getNumber_of_years_tenure();
     }
-    public Double getNetAmount(String user, String bank){
+    public Double getInterest(String user, String bank){
         String userBank = user+DELIMETER+bank;
-        return loanRepos.get(userBank).getNetAmount();
+        return loanRepos.get(userBank).getInterest();
     }
 }
