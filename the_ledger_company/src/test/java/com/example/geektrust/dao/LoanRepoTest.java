@@ -14,7 +14,7 @@ class LoanRepoTest {
     @BeforeEach
     void setUp() {
         this.loanRepo = new LoanRepo();
-        Loan SAMPLE_LOAN = new Loan(SAMPLE_USER,SAMPLE_BANK,SAMPLE_PRINCIPAL,SAMPLE_TENURE,SAMPLE_INTEREST);
+        this.SAMPLE_LOAN = new Loan(SAMPLE_USER,SAMPLE_BANK,SAMPLE_PRINCIPAL,SAMPLE_TENURE,SAMPLE_INTEREST);
     }
 
     @Test
