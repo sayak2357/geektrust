@@ -12,8 +12,7 @@ public class LumpsumPaymentRepo {
         this.lumpsumPayments = new HashMap<>();
     }
 
-    public boolean addLumpsum(String user, String bank,Double amount, Integer emiNumber){
-        Lumpsum lumpsum  = new Lumpsum(amount,emiNumber);
+    public boolean addLumpsum(Lumpsum lumpsum,String user, String bank){
         String userBank = user + DELIMETER +bank;
         if(lumpsumPayments.containsKey(userBank))
             lumpsumPayments.get(userBank).add(lumpsum);

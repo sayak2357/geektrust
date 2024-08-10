@@ -11,8 +11,8 @@ public class LoanRepo {
     public LoanRepo(){
         this.loanRepos = new HashMap<>();
     }
-    public boolean addLoan(String bank, String user, Double principal, Integer tenure, Double interest){
-        Loan loan = new Loan(user,bank,principal,tenure,interest);
+    public boolean addLoan(Loan loan, String bank, String user){
+
         String userBank = user+DELIMETER+bank;
         if(loanRepos.containsKey(userBank))
             return false;
