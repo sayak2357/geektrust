@@ -10,48 +10,41 @@ public class PowerLogicService {
     public PowerLogicService(){
         this.helperService = new HelperService();
     }
-    public Integer getRemainingPower(Coordinate source, Coordinate destination, String dir){
+    public Integer getRemainingPower(Coordinate source, Coordinate destination, Constants.directions dir){
         Gap gap = findGap(source,destination);
         Integer horizontalVerticalOrder = findHorizontalVerticalOrder(gap,dir);
         return Constants.TOTAL_BALANCE-getMinCost(gap,horizontalVerticalOrder,dir);
     }
-
-    private Integer getMinCost(Gap gap, Integer horizontalVerticalOrder, String dir) {
+    private Integer getMinCost(Gap gap, Integer horizontalVerticalOrder, Constants.directions dir) {
         Integer horizontalGap = gap.getHorizontal();
         Integer verticalGap = gap.getVertical();
         Integer totalCost = 0;
         if(horizontalVerticalOrder>0){
             CostDirPair cdp = helperService.calculateNetHorizontalCost(horizontalGap,dir);
             totalCost += cdp.getCost();
-            String newDir = cdp.getDir();
+            Constants.directions newDir = cdp.getDir();
             cdp = helperService.calculateNetVerticalCost(verticalGap,newDir);
             totalCost += cdp.getCost();
         }
         else{
             CostDirPair cdp = helperService.calculateNetVerticalCost(verticalGap,dir);
             totalCost += cdp.getCost();
-            String newDir = cdp.getDir();
+            Constants.directions newDir = cdp.getDir();
             cdp = helperService.calculateNetHorizontalCost(horizontalGap,newDir);
             totalCost += cdp.getCost();
         }
         return totalCost;
     }
-
-
-
     private Gap findGap(Coordinate source, Coordinate destination){
         Integer horizontalGap = destination.getX()-source.getX();
         Integer verticalGap = destination.getY()-source.getY();
         return new Gap(horizontalGap,verticalGap);
     }
-    private Integer findHorizontalVerticalOrder(Gap gap, String startingDir){
+    private Integer findHorizontalVerticalOrder(Gap gap, Constants.directions startingDir){
         Integer horizontalGap = gap.getHorizontal();
         Integer verticalGap = gap.getVertical();
         Integer horizontalTurnCost = helperService.findHorizontalTurnCost(horizontalGap,startingDir);
         Integer verticalTurnCost = helperService.findVerticalTurnCost(horizontalGap,startingDir);
         return horizontalTurnCost>verticalTurnCost? -1:1;
     }
-
-
-
 }

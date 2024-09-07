@@ -1,10 +1,12 @@
 package com.example.geektrust.entity;
 
+import com.example.geektrust.constants.Constants;
+
 public class CostDirPair {
     private Integer cost;
-    private String dir;
+    private Constants.directions dir;
 
-    public CostDirPair(Integer cost, String dir) {
+    public CostDirPair(Integer cost, Constants.directions dir) {
         this.cost = cost;
         this.dir = dir;
     }
@@ -13,7 +15,7 @@ public class CostDirPair {
         return cost;
     }
 
-    public String getDir() {
+    public Constants.directions getDir() {
         return dir;
     }
 }

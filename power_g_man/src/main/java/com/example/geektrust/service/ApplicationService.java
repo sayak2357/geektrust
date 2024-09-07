@@ -1,5 +1,6 @@
 package com.example.geektrust.service;
 
+import com.example.geektrust.constants.Constants;
 import com.example.geektrust.entity.Coordinate;
 
 import java.io.FileInputStream;
@@ -8,8 +9,10 @@ import java.util.Scanner;
 
 public class ApplicationService {
     private PowerLogicService powerLogicService;
+    private HelperService helperService;
     public ApplicationService(){
         this.powerLogicService = new PowerLogicService();
+        this.helperService = new HelperService();
     }
     public void run(String arg){
         try {
@@ -27,7 +30,8 @@ public class ApplicationService {
                     case "PRINT_POWER":
                         Coordinate source = new Coordinate(sx,sy);
                         Coordinate destination = new Coordinate(dx,dy);
-                        Integer remainingPower = powerLogicService.getRemainingPower(source,destination,dir);
+                        Constants.directions d = helperService.findDireectionEnum(dir);
+                        Integer remainingPower = powerLogicService.getRemainingPower(source,destination,d);
                         System.out.println(remainingPower);
                         break;
                     default:
