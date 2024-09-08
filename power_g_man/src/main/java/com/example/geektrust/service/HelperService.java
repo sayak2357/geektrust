@@ -13,10 +13,10 @@ public class HelperService {
         boolean isPositive = horizontalGap>0;
         switch(startingDir){
             case E: if(!isPositive)
-                ans = Constants.DISTANCE_TRAVEL_COST;
+                ans = 2*Constants.TURN_COST;
                 break;
             case W: if(isPositive)
-                ans = Constants.DISTANCE_TRAVEL_COST;
+                ans = 2*Constants.TURN_COST;
                 break;
             case N: ans = Constants.TURN_COST;break;
 
@@ -24,7 +24,7 @@ public class HelperService {
         }
         return ans;
     }
-    public Constants.directions findDireectionEnum(String dir){
+    public Constants.directions findDirectionEnum(String dir){
         Constants.directions dirEnum = null;
         switch(dir){
             case "E": dirEnum= E;break;
@@ -41,10 +41,10 @@ public class HelperService {
         boolean isPositive = verticalGap>0;
         switch(startingDir){
             case N: if(!isPositive)
-                ans = Constants.DISTANCE_TRAVEL_COST;
+                ans = 2*Constants.TURN_COST;
                 break;
             case S: if(isPositive)
-                ans = Constants.DISTANCE_TRAVEL_COST;
+                ans = 2*Constants.TURN_COST;
                 break;
             case E: ans = Constants.TURN_COST;break;
 

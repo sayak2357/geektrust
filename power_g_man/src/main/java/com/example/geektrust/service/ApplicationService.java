@@ -30,7 +30,7 @@ public class ApplicationService {
                     case "PRINT_POWER":
                         Coordinate source = new Coordinate(sx,sy);
                         Coordinate destination = new Coordinate(dx,dy);
-                        Constants.directions d = helperService.findDireectionEnum(dir);
+                        Constants.directions d = helperService.findDirectionEnum(dir);
                         Integer remainingPower = powerLogicService.getRemainingPower(source,destination,d);
                         System.out.println(remainingPower);
                         break;
