@@ -14,7 +14,7 @@ public class ApplicationService {
         this.powerLogicService = new PowerLogicService();
         this.helperService = new HelperService();
     }
-    public void run(String arg){
+    public boolean run(String arg){
         try {
 
             FileInputStream fis = new FileInputStream(arg);
@@ -32,15 +32,17 @@ public class ApplicationService {
                         Coordinate destination = new Coordinate(dx,dy);
                         Constants.directions d = helperService.findDirectionEnum(dir);
                         Integer remainingPower = powerLogicService.getRemainingPower(source,destination,d);
-                        System.out.println(remainingPower);
+                        System.out.println("POWER "+remainingPower);
                         break;
                     default:
                         System.out.println("error");
                         break;
                 }
             }
-            sc.close(); // closes the scanner
+            sc.close();
+            return true;
         } catch (IOException e) {
         }
+        return true;
     }
 }
